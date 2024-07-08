@@ -8,9 +8,9 @@ app = Flask(__name__)
 def fetch_products():
     conn = mysql.connector.connect(
         host=os.environ.get('DB_HOST'),
-        user=os.environ.get('DB_USER'),
-        password=os.environ.get('DB_PASSWORD'),
-        database=os.environ.get('DB_NAME')
+        user=os.environ.get('root'),
+        password=os.environ.get('Singh@123'),
+        database=os.environ.get('ecommerce_db')
     )
     cursor = conn.cursor()
     cursor.execute("SELECT id, name, description, price, image_url, product_url FROM products")
