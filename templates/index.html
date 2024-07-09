@@ -51,19 +51,33 @@
             background-position: center;
         }
         .container {
-            top: 0;
-            width: 100%;
-            max-width: 1200px;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding-bottom: 1px;
-            padding-top: 0;
-            padding-left: 50px;
-            padding-right: 50px;
-            border-radius: 20px;
-            border-top-left-radius: 0 ;
-            border-top-right-radius: 0 ;
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        }
+    position: relative;
+    top: 0;
+    width: 100%;
+    max-width: 1200px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding-bottom: 1px;
+    padding-top: 0;
+    padding-left: 50px;
+    padding-right: 50px;
+    border-radius: 20px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* To ensure the pseudo-element is clipped within the container */
+}
+.container::before {
+    content: '';
+    position: absolute;
+    top: 405px;
+    left: 0;
+    width: 100%;
+    height: 34%;
+    background-color: #0056b3;
+    z-index: -1; /* Ensure the gradient is behind the content */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
 
         .brand-logo {
     position: fixed;
@@ -1227,6 +1241,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-wrap: nowrap;
     width: max-content; /* Allow it to grow based on content */
+    background-color: rgb(226, 236, 247);
 }
 
 /* Card Styles */
@@ -1234,7 +1249,7 @@ h1, h2, h3, h4, h5, h6 {
     flex: 0 0 150px; /* Fixed width, no growing or shrinking */
     width: 150px;
     margin: 10px;
-    border: 1.5px solid #939393;
+    border: 1.5px solid #ffffff;
     padding: 20px;
     background-color: white;
     border-radius: 3px;
@@ -1484,10 +1499,35 @@ h1, h2, h3, h4, h5, h6 {
 }
 .nomobar{
     top: 80px;
-    background-color: #48719d;
+    
     color-interpolation-filters: auto;
     
 }
+.new_footer_area{
+    background-color: rgb(226, 236, 247);
+
+}
+.box-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; /* Space between boxes */
+}
+
+.box {
+    background-color: #ffffff; /* Background color for the boxes */
+    color: rgb(0, 0, 0); /* Text color */
+    padding: 10px;
+    border: 4px;
+    border-color: azure;
+    border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 150px; /* Fixed width for each box */
+    cursor: pointer; /* Changes cursor to pointer on hover */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
     </style>
 </head>
 <body>
@@ -1504,7 +1544,7 @@ h1, h2, h3, h4, h5, h6 {
         </p>
         <button id="closeSkipMessage">Skip</button>
     </div>
-    <div class = "nomobar">
+    <div class="nomobar"></div>
     <div class="container" itemprop="mainEntity">
         <header class="header">
             <div class="menu-button">&#9776;</div>
@@ -1527,7 +1567,7 @@ h1, h2, h3, h4, h5, h6 {
         
         
         
-
+        
         <div class="brand-logo"></div>
         <h2 class="Earnstayheadingh2">Paste your Product URL to Check Coupon,Deals and Cashback</h2>
 
@@ -1542,23 +1582,48 @@ h1, h2, h3, h4, h5, h6 {
     
     <button type="button" id="generateButton">Check</button>
         </form>
+    
         
 <h3 class="headinging">Sandbox</h3>
+<div class="lineted"></div>
 
-</div> <!-- Line below the heading -->
+ <!-- Line below the heading -->
 <div id="Product_Url" class="carousel-container">
     <div class="carousel-wrapper"></div>
 </div>
+
+
     
 
         <footer class="new_footer_area bg_color">
-            <div class="new_footer_top">
+            
                 <div class="foamter">
                     <div class="row">
-                        <div class="col-lg-3 col-md-6">
+                        
                             <div class="f_widget company_widget wow fadeInLeft" data-wow-delay="0.2s" style="visibility: visible; animation-delay: 0.2s; animation-name: fadeInLeft;">
                                 
-                                <h3 class="f-title f_600 t_color f_size_18">Know Your Profit</h3>
+                                <h3 class="f-title f_600 t_color f_size_18">Top Deals</h3>
+                                <div class="nomobar"></div> <!-- Example element with nomobar class -->
+                                <div class="box-container">
+                                    <div class="box">Coupon</div>
+                                    <div class="box">Deal</div>
+                                    <div class="box">CashBack</div>
+                                </div>
+
+                                <div class="carousel-container">
+                                    <div class="carousel-wrapper">
+                                        {% for product in products %}
+                                        <div class="cardo">
+                                            <div class="badge">New</div>
+                                            <div class="product-image" style="background-image: url('{{ product[4] }}')"></div>
+                                            <div class="brand-name">{{ product[1] }}</div>
+                                            <div class="product-details">{{ product[2] }}</div>
+                                            <div class="product-price">{{ product[3] }}</div>
+                                            <a href="{{ product[5] }}" class="button" target="_blank">Buy Now</a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
                                 <p>Receive Your Cashbacks,Fill before "Search Offers"</p>
                                 <form action="#" class="f_subscribe_two mailchimp" method="post" novalidate="true" _lpchecked="1" id="emailForm">
                                     <input type="text" name="EMAIL" id="email" class="form-control memail" placeholder="Enter Your Email">
@@ -1777,8 +1842,10 @@ h1, h2, h3, h4, h5, h6 {
         <div class="lineted"></div>
         <div class="row">
             
-                </div><div class="bg-zinc-800 text-white text-sm p-4">
-<div class="max-w-screen-lg mx-auto"><div class="fot">
+        </div>
+        <div class="bg-zinc-800 text-white text-sm p-4">
+    <div class="max-w-screen-lg mx-auto">
+    <div class="fot">
     
     <h2 class="Mythesisheader"><small>THE</small>MYthesis<small><small>COMPANY</small></h2>
                       <p class="mb-2"><small>
