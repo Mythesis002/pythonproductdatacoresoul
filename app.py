@@ -1,5 +1,7 @@
+from flask import Flask, render_template
 import sqlite3
-import streamlit as st
+
+app = Flask(__name__)
 
 # Function to fetch products
 def fetch_products():
@@ -11,20 +13,11 @@ def fetch_products():
     conn.close()
     return products
 
-# Streamlit app
-def main():
-    st.title("Product Carousel")
-
-    # Fetch products from the database
+# Route for rendering index.html
+@app.route('/')
+def home():
     products = fetch_products()
-
-    # Display products
-    for product in products:
-        st.markdown(f"### {product[1]}")
-        st.markdown(f"**Description:** {product[2]}")
-        st.markdown(f"**Price:** ${product[3]}")
-        st.image(product[4], width=200)
-        st.markdown(f"[View Product]({product[5]})")
+    return render_template('index.html', products=products)
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)
