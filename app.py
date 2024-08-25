@@ -3,6 +3,7 @@ from flask_cors import CORS  # Import the CORS library
 import cloudinary
 import cloudinary.uploader
 from gradio_client import Client, handle_file
+import os
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -65,5 +66,5 @@ def upload_image():
         return jsonify({'error': 'An error occurred: ' + str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    app.run(host='0.0.0.0', port=10000)
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port, debug=True)
