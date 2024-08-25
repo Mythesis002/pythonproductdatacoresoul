@@ -1,18 +1,17 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS  # Import the CORS library
 import cloudinary
 import cloudinary.uploader
 from gradio_client import Client, handle_file
-import os
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
 
 # Set up Cloudinary credentials
 cloudinary.config(
-    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.environ.get('CLOUDINARY_API_KEY'),
-    api_secret=os.environ.get('CLOUDINARY_API_SECRET')
+    cloud_name="dkr5qwdjd",
+    api_key="797349366477678",
+    api_secret="9HUrfG_i566NzrCZUVxKyCHTG9U"
 )
 
 # Initialize Gradio client
