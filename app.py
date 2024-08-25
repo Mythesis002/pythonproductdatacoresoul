@@ -17,15 +17,12 @@ cloudinary.config(
 # Initialize Gradio client
 client = Client("ChrisJohnson111/test4")
 
-@app.route('/upload', methods=['POST'])
+@app.route('/uploaded', methods=['POST'])
 def upload_image():
-    if 'image' not in request.files:
-        return jsonify({'error': 'No image part in the request'}), 400
-    
-    file = request.files['image']
-    
-    if file.filename == '':
-        return jsonify({'error': 'No selected file'}), 400
+    # Retrieve the image URL from the form data
+    image_url = request.form.get('image')
+    if not image_url:
+        return jsonify({'error': 'No image URL provided'}), 400
 
     # Retrieve the cloth image URL from the form data
     cloth_img_url = request.form.get('cloth')
@@ -33,46 +30,39 @@ def upload_image():
         return jsonify({'error': 'No cloth image URL provided'}), 400
 
     try:
-        # Upload the image to Cloudinary
-        upload_result = cloudinary.uploader.upload(file, folder="Mythesis_images")
-        if 'secure_url' in upload_result:
-            image_url = upload_result['secure_url']
-            
-            print("Uploaded Image URL:", image_url)
-            print("Cloth Image URL:", cloth_img_url)
+        print("Image URL:", image_url)
+        print("Cloth Image URL:", cloth_img_url)
 
-            # Ensure the predict function parameters match your Gradio setup
-            result = client.predict(
-                dict={"background": handle_file(image_url), "layers": [], "composite": None},
-                garm_img=handle_file(cloth_img_url),
-                garment_des="Hello!!",
-                is_checked=True,
-                is_checked_crop=False,
-                denoise_steps=30,
-                seed=42,
-                api_name="/tryon"
-            )
+        # Ensure the predict function parameters match your Gradio setup
+        result = client.predict(
+            dict={"background": handle_file(image_url), "layers": [], "composite": None},
+            garm_img=handle_file(cloth_img_url),
+            garment_des="Hello!!",
+            is_checked=True,
+            is_checked_crop=False,
+            denoise_steps=30,
+            seed=42,
+            api_name="/tryon"
+        )
 
-            processed_image_stream = result[0]  # Adjust based on actual Gradio output
+        processed_image_stream = result[0]  # Adjust based on actual Gradio output
 
-            # Upload the processed image directly to Cloudinary
-            processed_upload_result = cloudinary.uploader.upload(
-                processed_image_stream,
-                folder="Mythesis_images",
-                public_id="processed_image",
-                overwrite=True
-            )
+        # Upload the processed image directly to Cloudinary
+        processed_upload_result = cloudinary.uploader.upload(
+            processed_image_stream,
+            folder="Mythesis_images",
+            public_id="processed_image",
+            overwrite=True
+        )
 
-            if 'secure_url' in processed_upload_result:
-                processed_image_url = processed_upload_result['secure_url']
-                return jsonify({'processedImageUrl': processed_image_url}), 200
-            else:
-                return jsonify({'error': 'Failed to upload processed image to Cloudinary'}), 500
+        if 'secure_url' in processed_upload_result:
+            processed_image_url = processed_upload_result['secure_url']
+            return jsonify({'processedImageUrl': processed_image_url}), 200
         else:
-            return jsonify({'error': 'Failed to upload image to Cloudinary'}), 500
+            return jsonify({'error': 'Failed to upload processed image to Cloudinary'}), 500
     except Exception as e:
         print(f"Exception occurred: {e}")  # Print exception for debugging
         return jsonify({'error': 'An error occurred: ' + str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
