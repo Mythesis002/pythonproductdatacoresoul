@@ -6,7 +6,7 @@ from gradio_client import Client, handle_file
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)  # Enable CORS for all routes
 
 # Set up Cloudinary credentials
 cloudinary.config(
