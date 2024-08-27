@@ -1,13 +1,11 @@
 from flask import Flask, request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS  # Import the CORS library
 import cloudinary
 import cloudinary.uploader
 from gradio_client import Client, handle_file
 
 app = Flask(__name__)
-
-# Enable CORS for all origins
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)  # Enable CORS for all routes
 
 # Set up Cloudinary credentials
 cloudinary.config(
@@ -19,15 +17,8 @@ cloudinary.config(
 # Initialize Gradio client
 client = Client("ChrisJohnson111/test4")
 
-@app.route('/uploaded', methods=['POST', 'OPTIONS'])
+@app.route('/uploaded', methods=['POST'])
 def upload_image():
-    if request.method == 'OPTIONS':
-        # Respond to preflight requests
-        response = app.make_default_options_response()
-        response.headers['Access-Control-Allow-Methods'] = 'POST'
-        response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-        return response
-
     # Retrieve the image URL from the form data
     image_url = request.form.get('image')
     if not image_url:
@@ -74,4 +65,4 @@ def upload_image():
         return jsonify({'error': 'An error occurred: ' + str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(debug=True)
