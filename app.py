@@ -16,7 +16,7 @@ cloudinary.config(
 )
 
 # Initialize Gradio client
-client = Client("ChrisJohnson111/test4")
+client = Client("adarsh002/test3")
 
 @app.route('/uploaded', methods=['POST'])
 def upload_image():
