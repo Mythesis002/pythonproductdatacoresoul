@@ -16,7 +16,7 @@ cloudinary.config(
 )
 
 # Initialize Gradio client
-client = Client("Kwai-Kolors/Kolors-Virtual-Try-On")
+client = Client("yisol/IDM-VTON")
 
 @app.route('/uploaded', methods=['POST'])
 def upload_image():
