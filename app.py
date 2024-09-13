@@ -17,7 +17,7 @@ cloudinary.config(
 
 import httpx
 client = Client("Kwai-Kolors/Kolors-Virtual-Try-On")
-r = httpx.get("https://kwai-kolors-kolors-virtual-try-on.hf.space", timeout=250)
+r = httpx.get("https://kwai-kolors-kolors-virtual-try-on.hf.space", timeout=300)
 
 
 @app.route('/uploaded', methods=['POST'])
