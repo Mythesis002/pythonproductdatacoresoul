@@ -15,9 +15,8 @@ cloudinary.config(
     api_secret="9HUrfG_i566NzrCZUVxKyCHTG9U"
 )
 
-import httpx
-client = Client("Kwai-Kolors/Kolors-Virtual-Try-On")
-r = httpx.get("https://kwai-kolors-kolors-virtual-try-on.hf.space", timeout=300)
+# Initialize Gradio client
+client = Client("ChrisJohnson111/test333")
 
 
 @app.route('/uploaded', methods=['POST'])
